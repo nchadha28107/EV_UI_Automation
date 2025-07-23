@@ -1,0 +1,12 @@
+{
+    "cucumber.glue": [
+        "cypress/support/step_definitions/*.ts"
+    ],
+    "cucumber.features": [
+        "cypress/integration/*.feature"
+    ],
+    "cucumberautocomplete.steps": [
+        "cypress/support/step_definitions/*.ts"
+    ],
+    "cucumberautocomplete.smartSnippets": true
+}

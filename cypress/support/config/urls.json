@@ -1,0 +1,5 @@
+{
+    "local": "http://localhost:3000",
+    "staging": "https://staging-ev-app.example.com",
+    "prod": "https://ev-app.example.com"
+}

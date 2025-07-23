@@ -1,0 +1,7 @@
+{
+    "fieldRequiredError": "This field is required",
+    "titleMinimumLengthError": "Title must be at least 3 characters",
+    "titleMaximumLengthError": "Max. of 25 characters allowed",
+    "descriptionMaximumLengthError": "Max. of 100 characters allowed",
+    "successMessage": "Query submitted successfully!"
+}
