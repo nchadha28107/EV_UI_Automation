@@ -4,11 +4,6 @@ import { submitQueryLocators } from '../locators/submitQuery.locators';
 
 const submitQueryPage = new SubmitQueryPage();
 
-// Background and Navigation Steps
-Given('I am on the vehicle listings page', () => {
-    cy.visit('http://localhost:3000/');
-});
-
 Given('I am on the vehicle details page', () => {
     cy.visit('/vehicle/details/1');
 });

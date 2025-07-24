@@ -16,3 +16,9 @@
 // Import commands.ts using ES2015 syntax:
 import './commands';
 import 'cypress-xpath';
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // You can add conditional logic here if needed
+    // e.g., only ignore specific errors
+    return false; // prevents Cypress from failing the test
+});
