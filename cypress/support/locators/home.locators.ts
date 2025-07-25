@@ -10,7 +10,7 @@ export const homeLocators = {
     searchSubtitle: 'p',
 
     // Results section selectors (you'll need to update these based on your results page)
-    searchResultsSection: 'section.text-center',
+    searchResultsSection: 'div.p-6.max-w-full.mx-auto',
     searchResultsTitle: 'p.text-2xl',
     searchResultsContainer: 'div.p-6.max-w-full.mx-auto',
     searchResultNotFound: '.text-xl.py-6',
@@ -39,4 +39,20 @@ export const homeLocators = {
     previousButton: 'button:contains("Previous")',
     nextButton: 'button:contains("Next")',
     pageInfo: 'p.bg-white.text-indigo-500',
+
+    // Results section selectors - Updated based on your HTML structure
+    // searchResultsList: 'ul.mt-7.grid.md\\:grid-cols-3.sm\\:grid-cols-2.gap-5',
+    // searchResultItem: 'ul.mt-7.grid li.bg-white.border-\\[1px\\]',
+    
+    // Additional selectors that might be useful
+    vehicleCard: 'li.bg-white.border-\\[1px\\].border-gray',
+    vehicleImageContainer: 'div.relative.h-64.sm\\:h-64.w-full',
+    vehicleNameAndCondition: 'div.py-2.flex.justify-between',
+    vehicleDetails: 'div.flex.flex-col.gap-2.text-slate-500',
+    vehicleSpecs: 'div.flex.gap-1.text-slate-900',
+    vehiclePriceAndButton: 'div.flex.justify-between',
+    
+    // Filter container
+    filtersContainer: 'div.flex.justify-between.mb-4 div.flex.gap-2',
+    
 }

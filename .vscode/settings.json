@@ -1,6 +1,7 @@
 {
+    "files.autoSave": "afterDelay",
     "cucumber.glue": [
-        "cypress/support/step_definitions/*.ts"
+    "cypress/support/step_definitions/*.ts"
     ],
     "cucumber.features": [
         "cypress/integration/*.feature"

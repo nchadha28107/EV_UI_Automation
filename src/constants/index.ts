@@ -1,7 +1,7 @@
 export const EV_FILTER_OPTIONS = [
   { id: 1, text: "All", value: "" },
-  { id: 2, text: "New", value: "Used" },
-  { id: 3, text: "Used", value: "New" },
+  { id: 2, text: "New", value: "New" },
+  { id: 3, text: "Used", value: "Used" },
 ];
 
 export const EV_SORTING_OPTIONS = [

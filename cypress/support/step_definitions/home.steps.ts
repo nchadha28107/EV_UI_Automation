@@ -16,20 +16,8 @@ When('I click the clear button', () => {
     homePage.clickClearButton();
 });
 
-Then('the search button should be disabled', () => {
-    homePage.verifySearchButtonDisabled();
-});
-
-Then('the search button should be enabled', () => {
-    homePage.verifySearchButtonEnabled();
-});
-
 Then('I can click the search button', () => {
     homePage.clickSearchButton();
-});
-
-Then('I should see search field validation message', () => {
-    homePage.verifySearchFieldValidationMessage();
 });
 
 Then('I should be redirected to the homepage', () => {
@@ -108,14 +96,6 @@ Then('the vehicle details should match the selected result', () => {
     homePage.verifyDetailsMatchSelectedResult();
 });
 
-Then('the search results should be cleared', () => {
-    homePage.verifySearchResultsCleared();
-});
-
-Then('I should return to the default view', () => {
-    homePage.verifyDefaultViewReturned();
-});
-
 Then('the search should be executed', () => {
     homePage.verifySearchExecuted();
 });
@@ -126,21 +106,17 @@ Given('the page contains vehicle listings', () => {
 });
 
 // Filter condition steps
-When('I select {string} from the condition filter', (condition) => {
+When('I select {string} from the condition filter', (condition: string) => {
   homePage.selectConditionFilter(condition);
 });
 
-When('I select {string} from the sort filter', (sortOption) => {
+When('I select {string} from the sort filter', (sortOption: string) => {
   homePage.selectSortFilter(sortOption);
 });
 
 // Result verification steps
-Then('I should see only new vehicles in the results', () => {
-  homePage.verifyAllResultsAreNewVehicles();
-});
-
-Then('I should see only used vehicles in the results', () => {
-  homePage.verifyAllResultsAreUsedVehicles();
+Then('I should see only {string} vehicles in the results', (text: string) => {
+  homePage.verifyAllResultsAreNewUsedVehicles(text);
 });
 
 Then('I should see all vehicles regardless of condition', () => {
@@ -148,17 +124,17 @@ Then('I should see all vehicles regardless of condition', () => {
 });
 
 // Filter state verification
-Then('the condition filter should show {string} as selected', (expectedValue) => {
+Then('the condition filter should show {string} as selected', (expectedValue: string) => {
   homePage.verifyConditionFilterSelection(expectedValue);
 });
 
-Then('the sort filter should show {string} as selected', (expectedValue) => {
+Then('the sort filter should show {string} as selected', (expectedValue: string) => {
   homePage.verifySortFilterSelection(expectedValue);
 });
 
 // URL parameter verification
-Then('the URL should be updated with the condition parameter', () => {
-  homePage.verifyURLContainsConditionParameter();
+Then('the URL should be updated with the filter parameter', () => {
+  homePage.verifyURLContainsFilterParameter();
 });
 
 Then('the URL should be updated with the sort parameter', () => {
@@ -194,62 +170,16 @@ Then('the vehicles should be displayed in default order', () => {
   homePage.verifyDefaultSorting();
 });
 
-// Combined filter steps
-Given('I have applied a condition filter', () => {
-  homePage.selectConditionFilter('New');
-  homePage.verifyConditionFilterSelection('New');
-});
-
-Given('I have applied a sort filter', () => {
-  homePage.selectSortFilter('Low to High');
-  homePage.verifySortFilterSelection('Low to High');
-});
-
-Given('I have filtered by {string} condition and {string} sort', (condition, sort) => {
+Given('I have filtered by {string} condition and {string} sort', (condition: string, sort: string) => {
   homePage.selectConditionFilter(condition);
   homePage.selectSortFilter(sort);
   homePage.verifyConditionFilterSelection(condition);
   homePage.verifySortFilterSelection(sort);
 });
 
-Then('I should see only new vehicles sorted by price ascending', () => {
-  homePage.verifyAllResultsAreNewVehicles();
+Then('I should see only {string} vehicles sorted by price ascending', (text: string) => {
+  homePage.verifyAllResultsAreNewUsedVehicles(text);
   homePage.verifyPriceSortingAscending();
-});
-
-Then('I should see only new vehicles sorted by price ascending', () => {
-  homePage.verifyAllResultsAreNewVehicles();
-  homePage.verifyPriceSortingAscending();
-});
-
-Then('both filters should retain their selected values', () => {
-  homePage.verifyConditionFilterSelection('New');
-  homePage.verifySortFilterSelection('Low to High');
-});
-
-Then('the previous filter selections should be updated', () => {
-  homePage.verifyConditionFilterSelection('New');
-  homePage.verifySortFilterSelection('Low to High');
-});
-
-// Edge cases and error handling
-Given('there are no new vehicles available', () => {
-  // This might need to be mocked or use test data
-  homePage.setupNoNewVehiclesScenario();
-});
-
-Then('I should see a {string} message', (messageType) => {
-  if (messageType === 'no results found') {
-    homePage.verifyNoResultsMessage();
-  }
-});
-
-Then('the condition filter should remain as {string}', (expectedValue) => {
-  homePage.verifyConditionFilterSelection(expectedValue);
-});
-
-Then('the page should handle empty results gracefully', () => {
-  homePage.verifyEmptyResultsHandling();
 });
 
 // Filter options verification
@@ -261,11 +191,11 @@ When('I interact with the sort filter dropdown', () => {
   homePage.openSortFilterDropdown();
 });
 
-Then('I should see options: {string}, {string}, {string}', (option1, option2, option3) => {
+Then('I should see filter options: {string}, {string}, {string}', (option1: string, option2: string, option3: string) => {
   homePage.verifyConditionFilterOptions([option1, option2, option3]);
 });
 
-Then('I should see options: {string}, {string}, {string}', (option1, option2, option3) => {
+Then('I should see sorting options: {string}, {string}, {string}', (option1: string, option2: string, option3: string) => {
   homePage.verifySortFilterOptions([option1, option2, option3]);
 });
 
@@ -278,55 +208,12 @@ When('I navigate to a vehicle details page', () => {
   homePage.clickFirstVehicleDetailsLink();
 });
 
-When('I return to the listings page using browser back', () => {
-  cy.go('back');
-});
-
-Then('the applied filters should be maintained', () => {
-  homePage.verifyConditionFilterSelection('Used');
-  homePage.verifySortFilterSelection('Low to High');
-});
-
-Then('the filtered results should be displayed correctly', () => {
-  homePage.verifyAllResultsAreUsedVehicles();
-  homePage.verifyPriceSortingAscending();
-});
-
-// Performance testing
-Then('the results should update within {int} seconds', (seconds) => {
-  homePage.verifyFilterResponseTime(seconds * 1000);
-});
-
-Then('the page should remain responsive during filtering', () => {
-  homePage.verifyPageResponsiveness();
-});
-
-// Accessibility testing
-Then('the condition filter should have proper aria-label', () => {
-  homePage.verifyConditionFilterAccessibility();
-});
-
-Then('the sort filter should have proper aria-label', () => {
-  homePage.verifySortFilterAccessibility();
-});
-
-Then('filters should be keyboard navigable', () => {
-  homePage.verifyFiltersKeyboardNavigation();
-});
-
-Then('filter changes should be announced to screen readers', () => {
-  homePage.verifyFilterChangesAnnouncement();
-});
-
-// Search integration
-Given('I have searched for {string}', (searchTerm) => {
-  homePage.performSearch(searchTerm);
-  homePage.verifySearchResults(searchTerm);
-});
-
-Then('I should see only new Tesla vehicles', () => {
-  homePage.verifySearchResultsContain('tesla');
-  homePage.verifyAllResultsAreNewVehicles();
+When('I click Back to Listing button', () => {
+  // cy.go('back');
+  
+  cy.intercept('GET', /\.*(?:page)=/).as('backkk');
+  cy.get('[role="navigation"]').click();
+  cy.wait('@backkk')
 });
 
 Then('the search term should be preserved', () => {
@@ -335,21 +222,4 @@ Then('the search term should be preserved', () => {
 
 Then('both search and filter parameters should be in URL', () => {
   homePage.verifyURLContainsSearchAndFilterParameters();
-});
-
-// UI validation
-Then('the condition filter should display with default {string} selected', (defaultValue) => {
-  homePage.verifyConditionFilterSelection(defaultValue);
-});
-
-Then('the sort filter should display with default {string} selected', (defaultValue) => {
-  homePage.verifySortFilterSelection(defaultValue);
-});
-
-Then('both filters should have consistent styling', () => {
-  homePage.verifyFilterStylingConsistency();
-});
-
-Then('filters should be positioned correctly in the header section', () => {
-  homePage.verifyFilterPositioning();
 });
