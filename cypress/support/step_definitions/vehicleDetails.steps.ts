@@ -181,10 +181,6 @@ Then('the image gallery should work on touch devices', () => {
     vehicleDetailsPage.verifyTouchDeviceFunctionality();
 });
 
-Then('I should see an appropriate error message', () => {
-    vehicleDetailsPage.verifyErrorMessage();
-});
-
 Then('I should see the vehicle price with proper currency formatting', () => {
     vehicleDetailsPage.verifyFormattedPrice();
 });

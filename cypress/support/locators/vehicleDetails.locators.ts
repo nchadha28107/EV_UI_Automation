@@ -54,63 +54,13 @@ export const vehicleDetailsLocators = {
     getSpecByLabel: (label: string) => `div.flex-1:contains("${label}:")`,
     getSpecValueByLabel: (label: string) => `div.flex-1:contains("${label}:") span.font-semibold`,
 
-    // Loading states
-    loadingSpinner: '[data-testid="loading"]',
-    imageLoadingPlaceholder: 'div.animate-pulse',
-
     // Error states
     errorMessage: '.error-message',
-    notFoundMessage: '.not-found',
-    brokenImagePlaceholder: 'img[src*="placeholder"]',
-
-    // Responsive selectors
-    mobileLayout: '@media (max-width: 640px)',
-    tabletLayout: '@media (max-width: 1024px)',
-
-    // Accessibility selectors
-    skipLink: 'a.sr-only',
-    landmarkMain: 'main',
-    headingLevel1: 'h1',
-    headingLevel2: 'h2',
-
-    // SEO elements
-    pageTitle: 'title',
-    metaDescription: 'meta[name="description"]',
-    ogTitle: 'meta[property="og:title"]',
-    ogImage: 'meta[property="og:image"]',
 
     // Keyboard navigation
     focusableElements: 'a, button, img[role="button"], [tabindex]:not([tabindex="-1"])',
-    
-    // Alternative selectors for different states
-    selectedThumbnail: 'div[role="button"].selected', // If you add selected state
-    activeImage: 'img.active', // If you add active state
-    disabledScrollButton: 'button:disabled',
-    hiddenScrollButton: 'button.hidden',
 
     // Price formatting patterns
     pricePattern: /\d+[\.,]\d+[\.,]?\d*\s*[$€£¥]/,
     currencySymbol: /[$€£¥]/,
-
-    // Data attributes (if you add them)
-    vehicleId: '[data-vehicle-id]',
-    imageIndex: '[data-image-index]',
-    specType: '[data-spec-type]',
-
-    // Form elements (if any)
-    contactForm: 'form.contact-form',
-    inquiryButton: 'button.inquiry-btn',
-
-    // Social sharing (if added)
-    shareButton: 'button.share-btn',
-    socialLinks: '.social-share a',
-
-    // Related vehicles (if added)
-    relatedVehiclesSection: '.related-vehicles',
-    relatedVehicleCard: '.related-vehicle-card',
-
-    // Breadcrumbs (if added)
-    breadcrumbContainer: 'nav.breadcrumb',
-    breadcrumbLink: 'nav.breadcrumb a',
-    breadcrumbCurrent: 'nav.breadcrumb .current'
 };

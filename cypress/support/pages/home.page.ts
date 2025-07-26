@@ -144,11 +144,6 @@ export class HomePage {
         });
     }
 
-    verifySearchExecuted() {
-        // Verify search was executed by checking URL or results presence
-        cy.url().should('include', 'search');
-    }
-
     verifySearchFieldEmpty() {
         cy.get(homeLocators.searchField).should('have.value', '');
     }

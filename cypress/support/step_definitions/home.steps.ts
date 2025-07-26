@@ -92,10 +92,6 @@ Then('the vehicle details should match the selected result', () => {
     homePage.verifyDetailsMatchSelectedResult();
 });
 
-Then('the search should be executed', () => {
-    homePage.verifySearchExecuted();
-});
-
 Given('the page contains vehicle listings', () => {
   homePage.verifyListingsPageLoaded();
   homePage.verifyVehicleListingsExist();
@@ -231,15 +227,6 @@ Given('I am on page {int} of the filtered results', (pageNumber: number) => {
   homePage.verifyCurrentPage(pageNumber);
 });
 
-Given('I am on page {int} of the search results', (pageNumber: number) => {
-  if (pageNumber > 1) {
-    for (let i = 1; i < pageNumber; i++) {
-      homePage.clickNextButton();
-    }
-  }
-  homePage.verifyCurrentPage(pageNumber);
-});
-
 Given('I am on page {int} of the combined results', (pageNumber: number) => {
   if (pageNumber > 1) {
     for (let i = 1; i < pageNumber; i++) {
@@ -275,10 +262,6 @@ When('I click the browser back button', () => {
 
 When('I navigate directly to page {int} via URL', (pageNumber: number) => {
   homePage.navigateToPageViaURL(pageNumber);
-});
-
-When('I navigate to an invalid page number via URL', () => {
-  homePage.navigateToPageViaURL(999); // Assuming 999 is invalid
 });
 
 // Then steps for pagination verification
@@ -377,10 +360,6 @@ Then('the applied filters should remain active', () => {
 
 Then('I should be back on page {int} of the results', (pageNumber: number) => {
   homePage.verifyCurrentPage(pageNumber);
-});
-
-Then('I should see an appropriate error message', () => {
-  homePage.verifyErrorMessage();
 });
 
 Then('the pagination section should not be displayed', () => {

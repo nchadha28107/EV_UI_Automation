@@ -208,11 +208,6 @@ export class VehicleDetailsPage {
         cy.get(vehicleDetailsLocators.specificationItem).should('have.length.greaterThan', 0);
     }
 
-    // Error Handling Methods
-    verifyErrorMessage() {
-        cy.get(vehicleDetailsLocators.errorMessage).should('be.visible');
-    }
-
     // Mobile and Responsive Methods
     verifyMobileFriendly() {
         cy.viewport('iphone-x');
