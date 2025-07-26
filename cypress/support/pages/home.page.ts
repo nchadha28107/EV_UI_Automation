@@ -31,6 +31,7 @@ export class HomePage {
         cy.visit(urls[env]);
         cy.window().should('have.property', 'document');
         cy.document().should('have.property', 'readyState', 'complete');
+        // cy.wait(3000);
     }
 
     // Verification Methods
@@ -76,10 +77,6 @@ export class HomePage {
 
     clearSearchField() {
         cy.get(homeLocators.searchField).clear();
-    }
-
-    pressEnterInSearchField() {
-        cy.get(homeLocators.searchField).type('{enter}');
     }
 
     clickFirstSearchResult() {

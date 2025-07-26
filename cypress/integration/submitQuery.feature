@@ -5,6 +5,7 @@ Feature: Submit Query
 
   Background:
     Given I am on the EV application homepage
+    And the page contains vehicle listings
 
   Scenario: Successfully open submit query modal
     When I click the Submit Query button

@@ -51,10 +51,6 @@ When('I clear the search field', () => {
     homePage.clearSearchField();
 });
 
-When('I press Enter key', () => {
-    homePage.pressEnterInSearchField();
-});
-
 When('I click on a search result', () => {
     homePage.clickFirstSearchResult();
 });
