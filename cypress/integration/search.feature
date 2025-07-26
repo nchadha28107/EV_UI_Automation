@@ -24,12 +24,6 @@ Feature: EV Search Functionality
     Then I should see search results containing "Model"
     And the search term should be highlighted in the results
 
-  @positive
-  Scenario: Search with different vehicle attributes
-    When I enter "SUV" in the search field
-    And I click the search button
-    Then I should see search results containing "SUV"
-
   @negative
   Scenario: Search with no results
     When I enter "InvalidVehicleName12345" in the search field

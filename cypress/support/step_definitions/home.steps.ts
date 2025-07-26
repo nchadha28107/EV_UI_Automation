@@ -16,10 +16,6 @@ When('I click the clear button', () => {
     homePage.clickClearButton();
 });
 
-Then('I can click the search button', () => {
-    homePage.clickSearchButton();
-});
-
 Then('I should be redirected to the homepage', () => {
     cy.url().should('eq', Cypress.config().baseUrl + '/');
 });
@@ -208,18 +204,189 @@ When('I navigate to a vehicle details page', () => {
   homePage.clickFirstVehicleDetailsLink();
 });
 
-When('I click Back to Listing button', () => {
-  // cy.go('back');
-  
-  cy.intercept('GET', /\.*(?:page)=/).as('backkk');
-  cy.get('[role="navigation"]').click();
-  cy.wait('@backkk')
-});
-
 Then('the search term should be preserved', () => {
   homePage.verifySearchTermPreserved('tesla');
 });
 
 Then('both search and filter parameters should be in URL', () => {
   homePage.verifyURLContainsSearchAndFilterParameters();
+});
+
+Given('I am on page {int} of the results', (pageNumber: number) => {
+  if (pageNumber > 1) {
+    // Navigate to the specific page by clicking Next button (pageNumber-1) times
+    for (let i = 1; i < pageNumber; i++) {
+      homePage.clickNextButton();
+    }
+  }
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Given('I am on page {int} of the filtered results', (pageNumber: number) => {
+  if (pageNumber > 1) {
+    for (let i = 1; i < pageNumber; i++) {
+      homePage.clickNextButton();
+    }
+  }
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Given('I am on page {int} of the search results', (pageNumber: number) => {
+  if (pageNumber > 1) {
+    for (let i = 1; i < pageNumber; i++) {
+      homePage.clickNextButton();
+    }
+  }
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Given('I am on page {int} of the combined results', (pageNumber: number) => {
+  if (pageNumber > 1) {
+    for (let i = 1; i < pageNumber; i++) {
+      homePage.clickNextButton();
+    }
+  }
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Given('I am on the last page of results', () => {
+  homePage.navigateToLastPage();
+});
+
+// When steps for pagination actions
+When('I click the Next button', () => {
+  homePage.clickNextButton();
+});
+
+When('I click the Previous button', () => {
+  homePage.clickPreviousButton();
+});
+
+When('I refresh the page', () => {
+  cy.reload();
+});
+
+When('I click the browser back button', () => {
+  cy.go('back');
+        cy.window().should('have.property', 'document');
+        cy.document().should('have.property', 'readyState', 'complete');
+
+});
+
+When('I navigate directly to page {int} via URL', (pageNumber: number) => {
+  homePage.navigateToPageViaURL(pageNumber);
+});
+
+When('I navigate to an invalid page number via URL', () => {
+  homePage.navigateToPageViaURL(999); // Assuming 999 is invalid
+});
+
+// Then steps for pagination verification
+Then('I should see the pagination section', () => {
+  homePage.verifyPaginationExists();
+});
+
+Then('I should see the page information display', () => {
+  homePage.verifyPageInfoDisplay();
+});
+
+Then('I should see the Previous button', () => {
+  homePage.verifyPreviousButtonExists();
+});
+
+Then('I should see the Next button', () => {
+  homePage.verifyNextButtonExists();
+});
+
+Then('I should be on page {int} of the results', (pageNumber: number) => {
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Then('the URL should reflect the current page number', () => {
+  homePage.verifyURLContainsPageParameter();
+});
+
+Then('the page information should show page {int}', (pageNumber: number) => {
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Then('the Previous button should be enabled', () => {
+  homePage.verifyPreviousButtonEnabled();
+});
+
+Then('the Previous button should be disabled', () => {
+  homePage.verifyPreviousButtonDisabled();
+});
+
+Then('the Next button should be enabled', () => {
+  homePage.verifyNextButtonEnabled();
+});
+
+Then('the Next button should be disabled', () => {
+  homePage.verifyNextButtonDisabled();
+});
+
+Then('different vehicles should be displayed', () => {
+  homePage.verifyDifferentVehiclesDisplayed();
+});
+
+Then('the page information should show the last page number', () => {
+  homePage.verifyLastPageNumber();
+});
+
+Then('I should still be on page {int} of the results', (pageNumber: number) => {
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Then('the URL should contain {string}', (expectedParam: string) => {
+  cy.url().should('include', expectedParam);
+});
+
+Then('I should be on page {int} of the filtered results', (pageNumber: number) => {
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Then('the URL should contain both filter and page parameters', () => {
+  homePage.verifyURLContainsFilterParameter();
+  homePage.verifyURLContainsPageParameter();
+});
+
+Then('I should be on page {int} of the search results', (pageNumber: number) => {
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Then('the URL should contain both search and page parameters', () => {
+  homePage.verifyURLContainsSearchParameter();
+  homePage.verifyURLContainsPageParameter();
+});
+
+Then('I should be on page {int} of the combined results', (pageNumber: number) => {
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Then('the URL should contain search, filter, sort, and page parameters', () => {
+  homePage.verifyURLContainsSearchParameter();
+  homePage.verifyURLContainsFilterParameter();
+  homePage.verifyURLContainsSortParameter();
+  homePage.verifyURLContainsPageParameter();
+});
+
+Then('the applied filters should remain active', () => {
+  homePage.verifyFiltersRemainActive();
+});
+
+Then('I should be back on page {int} of the results', (pageNumber: number) => {
+  homePage.verifyCurrentPage(pageNumber);
+});
+
+Then('I should see an appropriate error message', () => {
+  homePage.verifyErrorMessage();
+});
+
+Then('the pagination section should not be displayed', () => {
+  homePage.verifyPaginationNotDisplayed();
+});
+
+Then('I should return to page {int} of the results', (pageNumber: number) => {
+  homePage.verifyCurrentPage(pageNumber);
 });

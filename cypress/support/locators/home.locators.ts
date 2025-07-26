@@ -39,6 +39,24 @@ export const homeLocators = {
     previousButton: 'button:contains("Previous")',
     nextButton: 'button:contains("Next")',
     pageInfo: 'p.bg-white.text-indigo-500',
+    
+    // Alternative pagination selectors (if your HTML structure is different)
+    paginationWrapper: '[data-testid="pagination"]',
+    pageNumbers: '.pagination-numbers',
+    currentPageIndicator: '.current-page',
+    totalPagesIndicator: '.total-pages',
+    
+    // Loading state selectors
+    loadingSpinner: '[data-testid="loading"]',
+    loadingOverlay: '.loading-overlay',
+    
+    // Error message selectors
+    errorMessage: '.error-message',
+    pageNotFound: '.page-not-found',
+    
+    // Accessibility selectors
+    paginationNav: 'nav[aria-label="pagination"]',
+    srOnlyText: '.sr-only',
 
     // Results section selectors - Updated based on your HTML structure
     // searchResultsList: 'ul.mt-7.grid.md\\:grid-cols-3.sm\\:grid-cols-2.gap-5',

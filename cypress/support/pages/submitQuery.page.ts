@@ -5,7 +5,6 @@ export class SubmitQueryPage {
 
     // Modal Management Methods
     openSubmitQueryModal() {
-        cy.wait(3000);
         cy.get(submitQueryLocators.submitQueryButton).click();
         this.verifyModalIsOpen();
     }

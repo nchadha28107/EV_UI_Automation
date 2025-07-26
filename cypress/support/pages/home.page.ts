@@ -23,11 +23,14 @@ export class HomePage {
         'High to Low': 'desc'
     };
 
+    private currentVehicleList: string[] = [];
+
     launchURL() {
         Cypress.config().baseUrl = urls[env];
         cy.viewport(device || 'macbook-15');
         cy.visit(urls[env]);
-        cy.wait(3000);
+        cy.window().should('have.property', 'document');
+        cy.document().should('have.property', 'readyState', 'complete');
     }
 
     // Verification Methods
@@ -62,7 +65,9 @@ export class HomePage {
     }
 
     clickSearchButton() {
+        cy.intercept({method: 'GET', url: /\/\?.*(?:query)=/, times: 1}).as('searchRecords');
         cy.get(homeLocators.searchButton).should('not.be.disabled').click();
+        cy.wait('@searchRecords');
     }
 
     clickClearButton() {
@@ -148,14 +153,6 @@ export class HomePage {
         cy.get(homeLocators.searchField).should('have.value', '');
     }
 
-    getSearchResultsCount() {
-        return cy.get(homeLocators.searchResultItem).its('length');
-    }
-
-    selectSearchResultByIndex(index: number) {
-        cy.get(homeLocators.searchResultItem).eq(index).click();
-    }
-
     // Page verification methods
     verifyListingsPageLoaded() {
         cy.get(homeLocators.evListingsHeader).should('contain.text', 'EV Listings');
@@ -172,12 +169,14 @@ export class HomePage {
         cy.intercept({method: 'GET', url: /\/\?.*(?:filter|page)=/, times: 1}).as('filterRecords');
         cy.get(homeLocators.conditionFilter).select(this.conditionFilterOptions[condition as ConditionOption]);
         cy.wait('@filterRecords'); // Wait for results to update
+        this.verifyURLContainsFilterParameter();
     }
 
     selectSortFilter(sortOption: string) {
         cy.intercept({method: 'GET', url: /\/\?.*(?:sort|page)=/, times: 1}).as('sortRecords');
         cy.get(homeLocators.sortFilter).select(this.sortFilterOptions[sortOption as SortOption]);
         cy.wait('@sortRecords'); // Wait for results to update
+        this.verifyURLContainsSortParameter()
     }
 
     // Filter state verification
@@ -309,6 +308,7 @@ export class HomePage {
         cy.intercept('GET', '/ev/*').as('evRecord');
         cy.get(homeLocators.detailsLink).first().click();
         cy.wait('@evRecord');
+        cy.url().should('contain', '/ev/')
     }
 
     verifySearchTermPreserved(searchTerm: string) {
@@ -327,7 +327,9 @@ export class HomePage {
     }
 
     clickNextButton() {
+        cy.intercept({method: 'GET', url: /\/\?.*(?:page|)=/, times: 1}).as('pageLoad');
         cy.get(homeLocators.nextButton).should('not.be.disabled').click();
+        cy.wait('@pageLoad');
     }
 
     clickPreviousButton() {
@@ -336,6 +338,9 @@ export class HomePage {
 
     verifyCurrentPage(pageNumber: number) {
         cy.get(homeLocators.pageInfo).should('contain.text', `Page ${pageNumber} of`);
+        if(pageNumber>1) {
+            cy.url().should('include', `page=${pageNumber}`);
+        }
     }
 
     verifyPreviousButtonDisabled() {
@@ -352,5 +357,89 @@ export class HomePage {
 
     verifyNextButtonEnabled() {
         cy.get(homeLocators.nextButton).should('not.be.disabled');
+    }
+
+
+    // Navigation and URL methods
+    navigateToPageViaURL(pageNumber: number) {
+        cy.intercept({method: 'GET', url: /\/\?.*(?:page|)=/, times: 1}).as('pageLoad');
+        cy.visit(`/?page=${pageNumber}`);
+        cy.wait('@pageLoad'); // Wait for results to update
+        
+    }
+
+    navigateToLastPage() {
+        // Keep clicking next until disabled
+        cy.get(homeLocators.nextButton).then(($button) => {
+            if (!$button.is(':disabled')) {
+                this.clickNextButton();
+                this.navigateToLastPage(); // Recursive call
+            }
+        });
+    }
+
+    // Page info and button verification methods
+    verifyPageInfoDisplay() {
+        cy.get(homeLocators.pageInfo).should('be.visible');
+    }
+
+    verifyPreviousButtonExists() {
+        cy.get(homeLocators.previousButton).should('be.visible');
+    }
+
+    verifyNextButtonExists() {
+        cy.get(homeLocators.nextButton).should('be.visible');
+    }
+
+    verifyURLContainsPageParameter() {
+        cy.url().should('contain', 'page=');
+    }
+
+    verifyURLContainsSearchParameter() {
+        cy.url().should('contain', 'query=');
+    }
+
+    // Vehicle comparison methods
+    verifyDifferentVehiclesDisplayed() {
+        cy.get(homeLocators.vehicleName).then(($names) => {
+            const newVehicleList = Array.from($names).map(el => el.textContent?.trim() || '');
+            
+            if (this.currentVehicleList.length > 0) {
+                // Compare with previous list - should be different
+                const isDifferent = !this.currentVehicleList.every((name, index) => 
+                    name === newVehicleList[index]
+                );
+                expect(isDifferent).to.be.true;
+            }
+            
+            this.currentVehicleList = newVehicleList;
+        });
+    }
+
+    verifyLastPageNumber() {
+        cy.get(homeLocators.pageInfo).should('contain', 'Page').then(($pageInfo) => {
+            const text = $pageInfo.text();
+            const match = text.match(/Page (\d+) of (\d+)/);
+            if (match) {
+                const currentPage = parseInt(match[1]);
+                const totalPages = parseInt(match[2]);
+                expect(currentPage).to.equal(totalPages);
+            }
+        });
+    }
+
+    // State verification methods
+    verifyFiltersRemainActive() {
+        // This would check that selected filters are still applied
+        cy.get(homeLocators.conditionFilter).should('not.have.value', '');
+        cy.get(homeLocators.sortFilter).should('not.have.value', '');
+    }
+
+    verifyErrorMessage() {
+        cy.contains('Page not found').should('be.visible');
+    }
+
+    verifyPaginationNotDisplayed() {
+        cy.get(homeLocators.paginationContainer).should('not.exist');
     }
 }

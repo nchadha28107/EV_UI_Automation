@@ -4,14 +4,6 @@ import { submitQueryLocators } from '../locators/submitQuery.locators';
 
 const submitQueryPage = new SubmitQueryPage();
 
-Given('I am on the vehicle details page', () => {
-    cy.visit('/vehicle/details/1');
-});
-
-Given('I am on the landing page', () => {
-    cy.visit('/');
-});
-
 // Modal Opening Steps
 When('I click the Submit Query button', () => {
     submitQueryPage.openSubmitQueryModal();

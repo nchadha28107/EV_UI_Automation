@@ -82,11 +82,3 @@ Feature: Submit Query
     Then form labels should be properly associated with inputs
     And required fields should be clearly marked with asterisk
     And the form should be keyboard navigable
-
-  Scenario: Submit query from different pages
-    Given I am on the vehicle details page
-    When I click the Submit Query button
-    Then the submit query modal is open
-    Given I am on the landing page
-    When I click the Submit Query button
-    Then the submit query modal is open

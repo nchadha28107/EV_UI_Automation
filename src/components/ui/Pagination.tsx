@@ -18,7 +18,7 @@ const Pagination = ({
   return (
     <div className="flex justify-center gap-1 mt-4">
       <button
-        onClick={() => onPageChange(currentPage + 1)}
+        onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === FIRST_PAGE}
         className={`${buttonClasses} rounded-l`}
       >
